@@ -2,6 +2,10 @@
 
 This project allows video streaming from a PC to an **ST7789** screen using an **ESP32** via UART.
 
+[Click aquí­ para ver el archivo léame en español](https://github.com/pablotoledom/esp32-video-streaming/blob/main/README_ESPANOL.md)
+
+[![IMAGE Esp32 showing DooM video](https://raw.githubusercontent.com/pablotoledom/esp32-video-streaming/refs/heads/main/image.jpg)](https://www.youtube.com/watch?v=Cykcpi9xnGo)
+
 ## 🚀 Features
 - ✅ Real-time video streaming from a PC to the ESP32.
 - ✅ Frame conversion and compression to **JPEG** to optimize transmission.
