@@ -2,56 +2,75 @@ import cv2
 import serial
 import time
 import struct
+import numpy as np
 
-# Configuración del puerto serial
-SERIAL_PORT = "/dev/ttyUSB0"   # En Windows usa "COM3" o "COM4"
-BAUD_RATE = 969900            # 3 Mbps
+# UART port configuration
+SERIAL_PORT = "/dev/ttyUSB0"  # On Windows use "COM3" or "COM4"
+BAUD_RATE = 921600  # Keep a stable speed
 
-# Abrir el puerto serial
+# Open the serial port
 ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=2)
 
-# Abrir el video
+# Load the video
 video_path = "video.mp4"
 cap = cv2.VideoCapture(video_path)
 
-print("Iniciando transmisión de video...")
+# Variables for frame comparison
+prev_frame = None
+frame_skip_threshold = 500  # If the change is below this value, we do not send the frame
+
+print("Starting video transmission...")
 
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Reiniciar video al llegar al final
+        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Restart video when reaching the end
         continue
 
-    # Redimensionar al tamaño de la pantalla (135x240)
+    # Resize the frame to optimize performance
+    frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
     frame = cv2.resize(frame, (135, 240))
 
-    # Comprimir la imagen a JPEG con calidad 20 (reduce el tamaño del frame)
-    _, buffer = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 20])
+    # Convert to grayscale to detect changes (more efficient than color)
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Compare with the previous frame, and if the change is below the threshold, skip it
+    if prev_frame is not None:
+        diff = cv2.absdiff(prev_frame, gray_frame)  # Detect differences between frames
+        if cv2.countNonZero(diff) < frame_skip_threshold:  # If the change is minimal, skip the frame
+            continue
+
+    # Save the current frame for the next comparison
+    prev_frame = gray_frame.copy()
+
+    # Compress the image to JPEG with optimized quality
+    _, buffer = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 25])
     jpeg_bytes = buffer.tobytes()
     frame_size = len(jpeg_bytes)
-    print(f"Enviando JPEG de {frame_size} bytes...")
 
-    # Vaciar el buffer de entrada antes de enviar
+    print(f"Sending JPEG of {frame_size} bytes...")
+
+    # Clear the input buffer before sending new data
     ser.reset_input_buffer()
 
-    # Enviar encabezado de sincronización: 0xAA 0x55
+    # Send synchronization header: 0xAA 0x55
     ser.write(b'\xAA\x55')
 
-    # Enviar el tamaño del frame como un entero de 4 bytes (little-endian)
+    # Send the frame size as a 4-byte integer (little-endian)
     ser.write(struct.pack('<I', frame_size))
 
-    # Enviar los datos JPEG en bloques
-    chunk_size = 1024
+    # Send JPEG data in larger chunks (2048 bytes)
+    chunk_size = 2048
     for i in range(0, frame_size, chunk_size):
         ser.write(jpeg_bytes[i:i+chunk_size])
-        time.sleep(0.0005)  # Pequeña pausa para mejorar la estabilidad
+        time.sleep(0.0003)  # Small delay to avoid saturating UART
 
-    # Esperar la respuesta del ESP32
+    # Wait for the ESP32 response
     response = ser.read()
-    print(f"Respuesta del ESP32: {response}")
+    print(f"ESP32 response: {response}")
 
-    # Ajusta el delay para intentar aumentar los FPS (p.ej., 1/25 para 25 FPS)
-    time.sleep(1/25)
+    # Try to increase FPS by reducing delay
+    time.sleep(1/30)  # Attempt to reach 30 FPS
 
 cap.release()
 ser.close()
