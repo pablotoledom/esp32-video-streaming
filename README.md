@@ -32,6 +32,13 @@ Make sure to install the following libraries in **Arduino IDE**:
    #define ST7789_DRIVER
    #define TFT_WIDTH  135
    #define TFT_HEIGHT 240
+   #define TFT_MISO -1   // Not use for ST7789
+   #define TFT_MOSI 23   // GPIO 23
+   #define TFT_SCLK 18   // GPIO 18
+   #define TFT_CS   5    // GPIO 5
+   #define TFT_DC   2    // GPIO 2
+   #define TFT_RST  4    // GPIO 4
+   #define TFT_BL   32   // If the display need a enable signal, use 3.3V EN pin or a GPIO
    #define SPI_FREQUENCY  40000000  // Optionally, 80 MHz if supported by the screen
    #define USE_DMA  // For better performance
    ```

@@ -391,17 +391,16 @@
 #define TFT_WIDTH  135  // Algunas versiones de 1.14" usan 135x240
 #define TFT_HEIGHT 240  
 
-// Configuración de pines
-#define TFT_MISO -1   // No se usa en ST7789
+// Project display pin connection
+#define TFT_MISO -1   // Not use for ST7789
 #define TFT_MOSI 23   // GPIO 23
 #define TFT_SCLK 18   // GPIO 18
 #define TFT_CS   5    // GPIO 5
 #define TFT_DC   2    // GPIO 2
 #define TFT_RST  4    // GPIO 4
+#define TFT_BL   32   // If the display need a enable signal, use 3.3V EN pin or a GPIO
 
-#define TFT_BL   32   // Si la pantalla lo requiere, usa 3.3V o un GPIO
-
-// Configuración de SPI
+// SPI configuration
 #define SPI_FREQUENCY  27000000  // 27 MHz
 #define SPI_READ_FREQUENCY  20000000
 
