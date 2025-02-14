@@ -2,7 +2,7 @@
 
 Este proyecto permite transmitir video desde un PC a una pantalla **ST7789** usando un **ESP32** a través de UART.
 
-[![IMAGE Esp32 showing DooM video](https://raw.githubusercontent.com/pablotoledom/esp32-video-streaming/refs/heads/main/image.jpg)](https://www.youtube.com/watch?v=Cykcpi9xnGo)
+[![IMAGE Esp32 showing DooM video](https://raw.githubusercontent.com/pablotoledom/ESP32-video-streaming-USB/refs/heads/main/image.jpg)](https://www.youtube.com/watch?v=Cykcpi9xnGo)
 
 ## 🚀 Características
 - ✅ Transmisión de video en tiempo real desde un PC al ESP32.
@@ -20,7 +20,7 @@ Este proyecto permite transmitir video desde un PC a una pantalla **ST7789** usa
 
 ### 🔹 **Software y Librerías**
 #### 📂 **En el ESP32 (Arduino)**
-Asegúrate de instalar las siguientes librerías en el **Arduino IDE**:
+Asegúrate de instalar las siguientes librerías en el **Arduino IDE**, si no las encuentras en la librería de Arduino puedes copiarlas directamente a tu computadora desde el directorio **arduino/libraries** de este proyecto y copiarlas y pegarlas dentro de la carpeta libraries que crea el sofware Arduino en tu PC:
 - [`TFT_eSPI`](https://github.com/Bodmer/TFT_eSPI) → Para manejar la pantalla ST7789
 - [`JPEGDecoder`](https://github.com/Bodmer/JPEGDecoder) → Para decodificar imágenes JPEG
 

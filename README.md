@@ -2,9 +2,9 @@
 
 This project allows video streaming from a PC to an **ST7789** screen using an **ESP32** via UART.
 
-[Click aquí­ para ver el archivo léame en español](https://github.com/pablotoledom/esp32-video-streaming/blob/main/README_ESPANOL.md)
+[Click aquí­ para ver el archivo léame en español](https://github.com/pablotoledom/ESP32-video-streaming-USB/blob/main/README_ESPANOL.md)
 
-[![IMAGE Esp32 showing DooM video](https://raw.githubusercontent.com/pablotoledom/esp32-video-streaming/refs/heads/main/image.jpg)](https://www.youtube.com/watch?v=Cykcpi9xnGo)
+[![IMAGE Esp32 showing DooM video](https://raw.githubusercontent.com/pablotoledom/ESP32-video-streaming-USB/refs/heads/main/image.jpg)](https://www.youtube.com/watch?v=Cykcpi9xnGo)
 
 ## 🚀 Features
 - ✅ Real-time video streaming from a PC to the ESP32.
@@ -22,7 +22,7 @@ This project allows video streaming from a PC to an **ST7789** screen using an *
 
 ### 🔹 **Software and Libraries**
 #### 📂 **On the ESP32 (Arduino)**
-Make sure to install the following libraries in **Arduino IDE**:
+Make sure to install the following libraries in **Arduino IDE**, If you can't find them in the Arduino library, you can copy them directly to your computer from the **arduino/libraries** directory of this project, copy and paste them into the libraries folder that the Arduino software creates on your PC:
 - [`TFT_eSPI`](https://github.com/Bodmer/TFT_eSPI) → To manage the ST7789 screen
 - [`JPEGDecoder`](https://github.com/Bodmer/JPEGDecoder) → To decode JPEG images
 
